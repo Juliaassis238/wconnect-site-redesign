@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/wconnect-hero-premium-1920.webp" type="image/webp" fetchpriority="high">
 <style>
 :root{
   --void:#060b14;
@@ -438,10 +437,40 @@ details .legal-body{padding:0 0 26px;font-size:13.5px;color:var(--mist);line-hei
       <div class="hero-note" style="margin-top:36px;"><span class="dot"></span> Atendimento comercial via WhatsApp · +55 (11) 5028-6511</div>
     </div>
     <div class="orb-stage">
-      <picture class="hero-visual">
-        <source media="(max-width: 760px)" srcset="assets/wconnect-hero-premium-960.webp">
-        <img src="assets/wconnect-hero-premium-1920.webp" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" alt="Rede de conexões inteligentes Wconnect">
-      </picture>
+      <svg class="orb-svg" viewBox="0 0 460 460">
+        <defs>
+          <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#4db3ff"/>
+            <stop offset="55%" stop-color="#2596e0"/>
+            <stop offset="100%" stop-color="#0d3a5c"/>
+          </radialGradient>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2596e0"/>
+            <stop offset="100%" stop-color="#39b46a"/>
+          </linearGradient>
+        </defs>
+        <g id="orbLines" stroke="url(#lineGrad)" stroke-width="1" fill="none" opacity="0.55">
+          <path d="M230 230 L110 130"/>
+          <path d="M230 230 L360 110"/>
+          <path d="M230 230 L90 300"/>
+          <path d="M230 230 L370 320"/>
+          <path d="M230 230 L230 60"/>
+          <path d="M230 230 L230 400"/>
+          <path d="M110 130 L230 60"/>
+          <path d="M360 110 L230 60"/>
+          <path d="M90 300 L230 400"/>
+          <path d="M370 320 L230 400"/>
+        </g>
+        <circle class="orb-core" cx="230" cy="230" r="46" fill="url(#coreGrad)"/>
+        <g id="orbNodes">
+          <circle class="node" cx="110" cy="130" r="7" fill="#4db3ff" style="color:#4db3ff"/>
+          <circle class="node" cx="360" cy="110" r="9" fill="#5cd68a" style="color:#5cd68a"/>
+          <circle class="node" cx="90" cy="300" r="6" fill="#5cd68a" style="color:#5cd68a"/>
+          <circle class="node" cx="370" cy="320" r="8" fill="#4db3ff" style="color:#4db3ff"/>
+          <circle class="node" cx="230" cy="60" r="5" fill="#e9f0f8" style="color:#e9f0f8"/>
+          <circle class="node" cx="230" cy="400" r="5" fill="#e9f0f8" style="color:#e9f0f8"/>
+        </g>
+      </svg>
       <div class="orb-caption">Uma IA que conecta todos os seus canais</div>
     </div>
   </div>
@@ -599,8 +628,8 @@ details .legal-body{padding:0 0 26px;font-size:13.5px;color:var(--mist);line-hei
     <div class="split">
       <div class="split-media reveal">
         <picture>
-          <source media="(max-width: 760px)" srcset="assets/wconnect-immersao-premium-720.webp">
-          <img src="assets/wconnect-immersao-premium-1280.webp" width="1280" height="960" loading="lazy" decoding="async" alt="Rede de conexões inteligentes Wconnect">
+          <source media="(max-width: 760px)" srcset="assets/wconnect-cinematic-architecture-720.webp">
+          <img src="assets/wconnect-cinematic-architecture-1280.webp" width="1280" height="960" loading="lazy" decoding="async" alt="Rede de conexões inteligentes Wconnect">
         </picture>
       </div>
       <div class="split-text reveal">
@@ -787,8 +816,8 @@ details .legal-body{padding:0 0 26px;font-size:13.5px;color:var(--mist);line-hei
       </div>
       <div class="split-media">
         <picture>
-          <source media="(max-width: 760px)" srcset="assets/wconnect-immersao-premium-720.webp">
-          <img src="assets/wconnect-immersao-premium-1280.webp" width="1280" height="960" loading="lazy" decoding="async" alt="Wconnect conectando canais de atendimento com inteligência artificial">
+          <source media="(max-width: 760px)" srcset="assets/wconnect-cinematic-network-960.webp">
+          <img src="assets/wconnect-cinematic-network-1920.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Wconnect conectando canais de atendimento com inteligência artificial">
         </picture>
       </div>
     </div>
