@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wconnect — Inteligência Artificial e Software sob Medida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#060b14;
+  --panel:#0a1220;
+  --panel2:#0d1a2b;
+  --panel3:#0f2033;
+  --line: rgba(232,240,248,0.09);
+  --line-soft: rgba(232,240,248,0.05);
+  --ice:#e9f0f8;
+  --mist:#8ea0ba;
+  --mist-dim:#5d6c82;
+  --blue:#2596e0;
+  --blue-bright:#4db3ff;
+  --green:#39b46a;
+  --green-bright:#5cd68a;
+  --glass: rgba(233,240,248,0.035);
+  --glass-strong: rgba(233,240,248,0.06);
+  --radius: 22px;
+  --maxw: 1240px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--ice);
+  font-family:'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--blue);color:#fff;}
+img{max-width:100%;display:block;}
+
+/* ---------- utility ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--green-bright);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:22px;
+}
+.eyebrow::before{content:"";width:20px;height:1px;background:var(--green-bright);display:inline-block;}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:400;letter-spacing:-0.01em;margin:0;}
+.h2{font-size:clamp(32px,4.2vw,52px);line-height:1.08;color:var(--ice);}
+.h2 em{font-style:italic;font-weight:400;background:linear-gradient(90deg,var(--blue-bright),var(--green-bright));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.lede{font-size:18px;line-height:1.65;color:var(--mist);max-width:640px;margin-top:22px;font-weight:300;}
+.section{position:relative;padding:150px 0;border-top:1px solid var(--line-soft);}
+.section-head{max-width:760px;margin-bottom:70px;}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Inter';font-size:14.5px;font-weight:600;
+  padding:16px 30px;border-radius:100px;
+  text-decoration:none;cursor:pointer;border:1px solid transparent;
+  transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s, background .3s, border-color .3s;
+  letter-spacing:0.01em;
+}
+.btn-primary{background:linear-gradient(120deg,var(--blue),var(--green));color:#04101c;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(37,150,224,.55);}
+.btn-ghost{border-color:var(--line);color:var(--ice);background:var(--glass);}
+.btn-ghost:hover{border-color:rgba(233,240,248,.3);transform:translateY(-2px);}
+.btn svg{width:15px;height:15px;}
+.tag{
+  font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.06em;
+  padding:5px 12px;border-radius:6px;border:1px solid var(--line);
+  color:var(--mist);white-space:nowrap;
+}
+
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:22px 0;
+  transition:padding .4s ease, background .4s ease, border-color .4s ease, backdrop-filter .4s ease;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  padding:13px 0;
+  background:rgba(6,11,20,0.72);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ice);}
+.brand-mark{width:30px;height:30px;flex:none;}
+.brand-word{font-family:'Fraunces';font-size:19px;letter-spacing:-0.01em;}
+.brand-word b{font-weight:600;color:var(--green-bright);font-style:normal;}
+.nav-links{display:flex;align-items:center;gap:34px;list-style:none;margin:0;padding:0;}
+.nav-links a{
+  color:var(--mist);text-decoration:none;font-size:14px;font-weight:500;
+  position:relative;transition:color .3s;
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--green-bright);transition:width .35s;}
+.nav-links a:hover{color:var(--ice);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.lang{font-family:'IBM Plex Mono';font-size:12px;color:var(--mist-dim);border:1px solid var(--line);padding:5px 9px;border-radius:6px;letter-spacing:.05em;}
+.burger{display:none;width:22px;height:16px;position:relative;cursor:pointer;flex:none;background:none;border:none;padding:0;}
+.burger span{position:absolute;left:0;right:0;height:1px;background:var(--ice);transition:all .3s;}
+.burger span:nth-child(1){top:0;}
+.burger span:nth-child(2){top:7px;}
+.burger span:nth-child(3){top:14px;}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;min-height:100vh;display:flex;align-items:center;
+  padding-top:140px;padding-bottom:80px;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:0;}
+.hero-bg .glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;}
+.hero-bg .glow-1{width:600px;height:600px;background:radial-gradient(circle,var(--blue) 0%,transparent 70%);top:-220px;right:-120px;}
+.hero-bg .glow-2{width:520px;height:520px;background:radial-gradient(circle,var(--green) 0%,transparent 70%);bottom:-260px;left:-160px;opacity:.22;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 55% at 60% 35%,black,transparent);opacity:.6;}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr 0.85fr;gap:40px;align-items:center;}
+.hero-title{font-size:clamp(40px,5.4vw,74px);line-height:1.03;color:var(--ice);letter-spacing:-0.015em;}
+.hero-title em{font-style:italic;font-weight:400;background:linear-gradient(100deg,var(--blue-bright),var(--green-bright) 65%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-cta-row{display:flex;align-items:center;gap:18px;margin-top:40px;flex-wrap:wrap;}
+.hero-note{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--mist-dim);font-family:'IBM Plex Mono';}
+.hero-note .dot{width:6px;height:6px;border-radius:50%;background:var(--green-bright);box-shadow:0 0 10px var(--green-bright);}
+
+/* orb visual */
+.orb-stage{position:relative;height:520px;display:flex;align-items:center;justify-content:center;}
+.orb-svg{width:100%;height:100%;overflow:visible;}
+.orb-core{filter:drop-shadow(0 0 40px rgba(37,150,224,.45));}
+.node{filter:drop-shadow(0 0 8px currentColor);}
+.orb-caption{
+  position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
+  font-family:'IBM Plex Mono';font-size:11px;color:var(--mist-dim);letter-spacing:.08em;
+  text-align:center;text-transform:uppercase;
+}
+
+.scroll-cue{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:.6;z-index:3;}
+.scroll-cue .line{width:1px;height:40px;background:linear-gradient(var(--ice),transparent);animation:scrolldown 2.2s ease infinite;}
+@keyframes scrolldown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.1%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+.scroll-cue span{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.15em;color:var(--mist-dim);text-transform:uppercase;}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(36px);}
+
+/* ---------- solutions ---------- */
+.sol-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+.sol-card{background:var(--panel);padding:38px 30px 34px;position:relative;transition:background .4s;min-height:420px;display:flex;flex-direction:column;}
+.sol-card:hover{background:var(--panel2);}
+.sol-index{font-family:'IBM Plex Mono';font-size:11px;color:var(--mist-dim);letter-spacing:.1em;margin-bottom:26px;}
+.sol-name{font-family:'Fraunces';font-size:25px;color:var(--ice);margin-bottom:6px;}
+.sol-sub{font-size:14px;color:var(--blue-bright);margin-bottom:18px;font-weight:500;}
+.sol-desc{font-size:14.5px;color:var(--mist);line-height:1.6;margin-bottom:22px;font-weight:300;}
+.sol-bullets{list-style:none;margin:0 0 auto;padding:0;display:flex;flex-direction:column;gap:10px;}
+.sol-bullets li{font-size:13px;color:var(--mist);display:flex;gap:10px;line-height:1.5;font-family:'IBM Plex Mono';}
+.sol-bullets li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--green-bright);margin-top:6px;flex:none;}
+.sol-link{margin-top:26px;font-size:13px;color:var(--ice);text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-weight:500;border-top:1px solid var(--line);padding-top:18px;}
+.sol-link svg{width:12px;height:12px;transition:transform .3s;}
+.sol-link:hover svg{transform:translate(3px,-3px);}
+
+/* ---------- pillars (o que fazemos) ---------- */
+.pillar-list{display:flex;flex-direction:column;}
+.pillar{
+  display:grid;grid-template-columns:90px 1fr;gap:30px;
+  padding:38px 0;border-top:1px solid var(--line);
+}
+.pillar:last-child{border-bottom:1px solid var(--line);}
+.pillar-num{font-family:'IBM Plex Mono';font-size:13px;color:var(--mist-dim);padding-top:6px;}
+.pillar-name{font-family:'Fraunces';font-size:24px;color:var(--ice);margin-bottom:10px;}
+.pillar-desc{font-size:15px;color:var(--mist);line-height:1.7;max-width:640px;font-weight:300;}
+
+/* ---------- advantages ---------- */
+.adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
+.adv-card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:32px 26px;transition:border-color .35s, transform .35s;}
+.adv-card:hover{border-color:rgba(233,240,248,.22);transform:translateY(-4px);}
+.adv-icon{width:38px;height:38px;margin-bottom:22px;color:var(--green-bright);}
+.adv-name{font-family:'Fraunces';font-size:19px;color:var(--ice);margin-bottom:10px;}
+.adv-desc{font-size:13.8px;color:var(--mist);line-height:1.6;font-weight:300;}
+
+/* ---------- immersion / split ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+.split-media{position:relative;border-radius:26px;overflow:hidden;border:1px solid var(--line);}
+.split-media img{width:100%;height:100%;object-fit:cover;display:block;}
+.split-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(6,11,20,.55));pointer-events:none;}
+.split-text .h2{margin-bottom:24px;}
+
+/* ---------- clients marquee ---------- */
+.clients-wrap{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);padding:56px 0;overflow:hidden;}
+.marquee-track{display:flex;gap:70px;width:max-content;animation:marquee 34s linear infinite;}
+.marquee-track span{
+  font-family:'Fraunces';font-style:italic;font-size:27px;color:var(--mist-dim);
+  white-space:nowrap;transition:color .3s;
+}
+.marquee-track span:hover{color:var(--ice);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ---------- software personalizado ---------- */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:50px;}
+.stat-box{border:1px solid var(--line);border-radius:16px;padding:26px 24px;background:var(--glass);}
+.stat-num{font-family:'Fraunces';font-size:36px;color:var(--ice);}
+.stat-label{font-size:12.5px;color:var(--mist);margin-top:8px;font-family:'IBM Plex Mono';letter-spacing:.02em;}
+.sectors{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+
+.problems-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:20px;}
+.problem-item{background:var(--panel);padding:26px 28px;font-size:14px;color:var(--mist);line-height:1.6;font-weight:300;}
+.problem-item b{color:var(--ice);font-weight:500;display:block;margin-bottom:4px;font-family:'Fraunces';font-size:16px;}
+
+.process-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;margin-top:20px;}
+.process-step{position:relative;padding-top:26px;}
+.process-step::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--blue),var(--green));opacity:.35;}
+.process-mono{font-family:'IBM Plex Mono';font-size:11px;color:var(--green-bright);letter-spacing:.08em;}
+.process-name{font-family:'Fraunces';font-size:16.5px;margin:10px 0 8px;color:var(--ice);line-height:1.25;}
+.process-desc{font-size:12.5px;color:var(--mist);line-height:1.55;font-weight:300;}
+
+.two-col-lists{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:20px;}
+.dot-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;}
+.dot-list li{display:flex;gap:14px;font-size:14.5px;color:var(--mist);line-height:1.55;font-weight:300;}
+.dot-list li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue-bright);margin-top:7px;flex:none;}
+
+table{width:100%;border-collapse:collapse;margin-top:18px;font-size:13.5px;}
+th{text-align:left;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mist-dim);font-weight:500;padding:12px 16px;border-bottom:1px solid var(--line);}
+td{padding:16px;border-bottom:1px solid var(--line-soft);color:var(--mist);font-weight:300;vertical-align:top;}
+td:first-child, th:first-child{color:var(--ice);font-weight:500;padding-left:0;}
+.table-wrap{border:1px solid var(--line);border-radius:16px;padding:6px 22px;background:var(--glass);margin-top:24px;}
+.table-wrap table tr:last-child td{border-bottom:none;}
+
+/* ---------- sobre ---------- */
+.about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:70px;}
+.indicators{display:flex;gap:0;margin-top:44px;border-top:1px solid var(--line);padding-top:30px;}
+.indicator{flex:1;padding-right:20px;}
+.indicator .stat-num{font-size:44px;}
+.pv-card{border:1px solid var(--line);border-radius:18px;padding:28px;background:var(--glass);margin-bottom:20px;}
+.pv-label{font-family:'IBM Plex Mono';font-size:11px;color:var(--green-bright);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;}
+.pv-text{font-family:'Fraunces';font-size:19px;line-height:1.4;color:var(--ice);font-style:italic;}
+.princ-list{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:0;}
+.princ-list li{padding:16px 0;border-top:1px solid var(--line-soft);font-size:13.8px;color:var(--mist);line-height:1.5;font-weight:300;display:flex;gap:12px;}
+.princ-list li::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--mist-dim);margin-top:8px;flex:none;}
+
+/* ---------- blog teaser ---------- */
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.blog-card{border:1px solid var(--line);border-radius:18px;padding:30px 26px;background:var(--glass);transition:border-color .3s, transform .3s;}
+.blog-card:hover{border-color:rgba(233,240,248,.2);transform:translateY(-4px);}
+.blog-topic{font-family:'IBM Plex Mono';font-size:11px;color:var(--blue-bright);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;}
+.blog-title{font-family:'Fraunces';font-size:20px;color:var(--ice);line-height:1.3;}
+.blog-note{margin-top:16px;font-size:13px;color:var(--mist-dim);font-weight:300;}
+
+/* ---------- final CTA ---------- */
+.final-cta{text-align:center;padding:150px 0;position:relative;}
+.final-cta .h2{margin:0 auto;max-width:760px;}
+.final-cta .lede{margin-left:auto;margin-right:auto;}
+.final-cta .hero-cta-row{justify-content:center;margin-top:44px;}
+.final-glow{position:absolute;top:50%;left:50%;width:900px;height:500px;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(37,150,224,.14),transparent 65%);pointer-events:none;}
+
+/* ---------- contact ---------- */
+.contact-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:70px;}
+.contact-info{display:flex;flex-direction:column;gap:0;}
+.ci-row{padding:22px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;align-items:baseline;}
+.ci-label{font-family:'IBM Plex Mono';font-size:11.5px;color:var(--mist-dim);letter-spacing:.06em;text-transform:uppercase;}
+.ci-value{font-size:15px;color:var(--ice);text-align:right;font-weight:400;}
+.ci-value a{color:var(--ice);text-decoration:none;border-bottom:1px solid var(--line);}
+.ci-value a:hover{color:var(--blue-bright);border-color:var(--blue-bright);}
+
+.form{display:flex;flex-direction:column;gap:22px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.field{display:flex;flex-direction:column;gap:10px;}
+.field label{font-family:'IBM Plex Mono';font-size:11px;color:var(--mist-dim);letter-spacing:.06em;text-transform:uppercase;}
+.field input, .field textarea{
+  background:transparent;border:none;border-bottom:1px solid var(--line);
+  color:var(--ice);font-family:'Inter';font-size:15px;padding:10px 2px;
+  outline:none;transition:border-color .3s;font-weight:300;
+}
+.field input:focus, .field textarea:focus{border-color:var(--blue-bright);}
+.field textarea{resize:vertical;min-height:90px;}
+.form-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:16px;}
+.form-foot small{color:var(--mist-dim);font-size:12px;font-weight:300;max-width:320px;line-height:1.5;}
+
+/* ---------- voice agent ---------- */
+.voice-fab{
+  position:fixed;bottom:28px;right:28px;z-index:900;
+  display:flex;align-items:center;gap:12px;
+  background:rgba(10,18,32,.78);backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:100px;
+  padding:12px 22px 12px 12px;cursor:pointer;
+  transition:border-color .3s, transform .3s;
+}
+.voice-fab:hover{border-color:rgba(233,240,248,.28);transform:translateY(-2px);}
+.voice-orb{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));position:relative;flex:none;}
+.voice-orb::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--blue-bright);opacity:.5;animation:pulsering 2.6s ease-out infinite;}
+@keyframes pulsering{0%{transform:scale(.8);opacity:.6;}100%{transform:scale(1.5);opacity:0;}}
+.voice-text{font-size:12.5px;color:var(--ice);line-height:1.3;font-family:'IBM Plex Mono';}
+.voice-text b{display:block;font-family:'Fraunces';font-size:14px;font-weight:500;font-style:italic;}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line-soft);padding:90px 0 40px;}
+.foot-top{display:grid;grid-template-columns:1.4fr 0.8fr 0.8fr 1fr;gap:50px;margin-bottom:70px;}
+.foot-brand-word{font-family:'Fraunces';font-size:22px;color:var(--ice);margin-bottom:16px;}
+.foot-sig{font-size:14.5px;color:var(--mist);line-height:1.6;max-width:280px;font-weight:300;}
+.foot-col h4{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mist-dim);margin:0 0 20px;font-weight:500;}
+.foot-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;}
+.foot-col a{color:var(--mist);text-decoration:none;font-size:14px;transition:color .3s;}
+.foot-col a:hover{color:var(--ice);}
+.legal-accordion{border-top:1px solid var(--line-soft);padding-top:40px;margin-bottom:40px;}
+details{border-bottom:1px solid var(--line-soft);}
+details summary{
+  padding:20px 0;cursor:pointer;list-style:none;
+  font-family:'Fraunces';font-size:16.5px;color:var(--ice);
+  display:flex;justify-content:space-between;align-items:center;
+}
+details summary::-webkit-details-marker{display:none;}
+details summary::after{content:"+";font-family:'Inter';font-size:20px;color:var(--mist-dim);transition:transform .3s;font-weight:300;}
+details[open] summary::after{transform:rotate(45deg);}
+details .legal-body{padding:0 0 26px;font-size:13.5px;color:var(--mist);line-height:1.7;font-weight:300;max-width:760px;}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:34px;border-top:1px solid var(--line-soft);flex-wrap:wrap;gap:16px;}
+.foot-bottom p{margin:0;font-size:12.5px;color:var(--mist-dim);font-family:'IBM Plex Mono';}
+.social-row{display:flex;gap:18px;}
+.social-row a{color:var(--mist);}
+.social-row svg{width:17px;height:17px;transition:color .3s;}
+.social-row a:hover svg{color:var(--green-bright);}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1080px){
+  .sol-grid{grid-template-columns:repeat(2,1fr);}
+  .adv-grid{grid-template-columns:repeat(2,1fr);}
+  .process-strip{grid-template-columns:repeat(3,1fr);row-gap:34px;}
+  .foot-top{grid-template-columns:1fr 1fr;row-gap:44px;}
+  .about-grid{grid-template-columns:1fr;gap:50px;}
+  .split{grid-template-columns:1fr;gap:40px;}
+  .hero .wrap{grid-template-columns:1fr;}
+  .orb-stage{height:340px;order:-1;}
+}
+@media (max-width: 760px){
+  .wrap{padding:0 22px;}
+  .nav-links, .lang{display:none;}
+  .burger{display:block;}
+  .section{padding:100px 0;}
+  .sol-grid{grid-template-columns:1fr;}
+  .adv-grid{grid-template-columns:1fr;}
+  .problems-grid{grid-template-columns:1fr;}
+  .process-strip{grid-template-columns:1fr 1fr;}
+  .two-col-lists{grid-template-columns:1fr;gap:30px;}
+  .contact-grid{grid-template-columns:1fr;gap:50px;}
+  .form-row{grid-template-columns:1fr;}
+  .foot-top{grid-template-columns:1fr;}
+  .pillar{grid-template-columns:50px 1fr;gap:18px;}
+  .blog-grid{grid-template-columns:1fr;}
+  .indicators{flex-direction:column;gap:24px;}
+  .voice-fab .voice-text{display:none;}
+  .voice-fab{padding:10px;}
+  table{font-size:12px;}
+  .stats-row{grid-template-columns:1fr;}
+}
+
+.reduce-motion .reveal{opacity:1 !important;transform:none !important;}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="mainNav">
+  <div class="wrap">
+    <a href="#inicio" class="brand">
+      <svg class="brand-mark" viewBox="0 0 48 48" fill="none">
+        <path d="M4 16 C4 9 9 4 16 4 C23 4 28 9 28 16" stroke="#2596e0" stroke-width="4.4" stroke-linecap="round"/>
+        <path d="M2 18 L10 38 L16 22 L22 38 L30 18" stroke="#2596e0" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="40" cy="24" r="6" fill="#39b46a"/>
+      </svg>
+      <span class="brand-word">W<b>Connect</b></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#inicio">Início</a></li>
+      <li><a href="#solucoes">Soluções</a></li>
+      <li><a href="#software">Software Personalizado</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <div class="nav-right">
+      <span class="lang">PT</span>
+      <a class="btn btn-primary" href="https://wa.me/551150286511" target="_blank" rel="noopener" style="padding:11px 22px;font-size:13px;">Fale Conosco</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- mobile menu -->
+<div id="mobileMenu" style="position:fixed;inset:0;background:rgba(6,11,20,.97);backdrop-filter:blur(16px);z-index:1200;display:none;flex-direction:column;align-items:center;justify-content:center;gap:30px;">
+  <a href="#inicio" class="mnav" style="color:#e9f0f8;font-family:'Fraunces';font-size:26px;text-decoration:none;">Início</a>
+  <a href="#solucoes" class="mnav" style="color:#e9f0f8;font-family:'Fraunces';font-size:26px;text-decoration:none;">Soluções</a>
+  <a href="#software" class="mnav" style="color:#e9f0f8;font-family:'Fraunces';font-size:26px;text-decoration:none;">Software Personalizado</a>
+  <a href="#sobre" class="mnav" style="color:#e9f0f8;font-family:'Fraunces';font-size:26px;text-decoration:none;">Sobre</a>
+  <a href="#blog" class="mnav" style="color:#e9f0f8;font-family:'Fraunces';font-size:26px;text-decoration:none;">Blog</a>
+  <a href="#contato" class="mnav" style="color:#e9f0f8;font-family:'Fraunces';font-size:26px;text-decoration:none;">Contato</a>
+  <a href="https://wa.me/551150286511" target="_blank" class="btn btn-primary" style="margin-top:10px;">Fale Conosco</a>
+  <button id="closeMobile" style="position:absolute;top:28px;right:28px;background:none;border:none;color:#e9f0f8;font-size:30px;cursor:pointer;font-family:'Fraunces';">×</button>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="inicio">
+  <div class="hero-bg">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="eyebrow">Wconnect — Tecnologia e IA aplicada</div>
+      <h1 class="hero-title">Inteligência <em>Artificial</em> e Software sob Medida</h1>
+      <p class="lede">A Wconnect é sua parceira estratégica no desenvolvimento de produtos digitais e soluções com inteligência artificial. Transformamos ideias em plataformas, apps e automações sob medida.</p>
+      <div class="hero-cta-row">
+        <a href="https://wa.me/551150286511" target="_blank" rel="noopener" class="btn btn-primary">
+          Fale Conosco
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </a>
+        <a href="#solucoes" class="btn btn-ghost">Ver soluções prontas</a>
+      </div>
+      <div class="hero-note" style="margin-top:36px;"><span class="dot"></span> Atendimento comercial via WhatsApp · +55 (11) 5028-6511</div>
+    </div>
+    <div class="orb-stage">
+      <svg class="orb-svg" viewBox="0 0 460 460">
+        <defs>
+          <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#4db3ff"/>
+            <stop offset="55%" stop-color="#2596e0"/>
+            <stop offset="100%" stop-color="#0d3a5c"/>
+          </radialGradient>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2596e0"/>
+            <stop offset="100%" stop-color="#39b46a"/>
+          </linearGradient>
+        </defs>
+        <g id="orbLines" stroke="url(#lineGrad)" stroke-width="1" fill="none" opacity="0.55">
+          <path d="M230 230 L110 130"/>
+          <path d="M230 230 L360 110"/>
+          <path d="M230 230 L90 300"/>
+          <path d="M230 230 L370 320"/>
+          <path d="M230 230 L230 60"/>
+          <path d="M230 230 L230 400"/>
+          <path d="M110 130 L230 60"/>
+          <path d="M360 110 L230 60"/>
+          <path d="M90 300 L230 400"/>
+          <path d="M370 320 L230 400"/>
+        </g>
+        <circle class="orb-core" cx="230" cy="230" r="46" fill="url(#coreGrad)"/>
+        <g id="orbNodes">
+          <circle class="node" cx="110" cy="130" r="7" fill="#4db3ff" style="color:#4db3ff"/>
+          <circle class="node" cx="360" cy="110" r="9" fill="#5cd68a" style="color:#5cd68a"/>
+          <circle class="node" cx="90" cy="300" r="6" fill="#5cd68a" style="color:#5cd68a"/>
+          <circle class="node" cx="370" cy="320" r="8" fill="#4db3ff" style="color:#4db3ff"/>
+          <circle class="node" cx="230" cy="60" r="5" fill="#e9f0f8" style="color:#e9f0f8"/>
+          <circle class="node" cx="230" cy="400" r="5" fill="#e9f0f8" style="color:#e9f0f8"/>
+        </g>
+      </svg>
+      <div class="orb-caption">Uma IA que conecta todos os seus canais</div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Role para explorar</span><div class="line"></div></div>
+</section>
+
+<!-- ============ SOLUÇÕES PRONTAS ============ -->
+<section class="section" id="solucoes">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Soluções prontas</div>
+      <h2 class="h2">Nossos produtos, <em>prontos</em> para operar</h2>
+      <p class="lede">Plataformas já validadas pela Wconnect, prontas para integrar à sua operação, com a possibilidade de personalizar cada regra ao seu negócio.</p>
+    </div>
+
+    <div class="sol-grid reveal">
+      <div class="sol-card">
+        <div class="sol-index">01 / Atendimento</div>
+        <div class="sol-name">Wconnect IA</div>
+        <div class="sol-sub">Uma IA que conecta todos os seus canais</div>
+        <p class="sol-desc">Atendimento receptivo e ativo com IA usando o mesmo número no telefone e no WhatsApp, integrado a Instagram, Facebook, site e e-mail.</p>
+        <ul class="sol-bullets">
+          <li>Base de conhecimento consultiva</li>
+          <li>Qualificação inteligente de leads</li>
+          <li>Integração nativa com CRM</li>
+        </ul>
+        <a class="sol-link" href="https://wconnect.ai" target="_blank" rel="noopener">wconnect.ai <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+      </div>
+
+      <div class="sol-card">
+        <div class="sol-index">02 / Estoque</div>
+        <div class="sol-name">S&amp;OP IA</div>
+        <div class="sol-sub">Inteligência de estoque para o varejo</div>
+        <p class="sol-desc">Previsão de demanda com IA, integração com ERPs e automação de pedidos de compra para operações com milhares de SKUs.</p>
+        <ul class="sol-bullets">
+          <li>Previsão com MAPE reduzido</li>
+          <li>Reposição automatizada</li>
+          <li>Planejamento S&amp;OP colaborativo</li>
+        </ul>
+        <a class="sol-link" href="#software">Conhecer solução <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+      </div>
+
+      <div class="sol-card">
+        <div class="sol-index">03 / Crédito</div>
+        <div class="sol-name">Credify</div>
+        <div class="sol-sub">A esteira digital completa para quem concede crédito</div>
+        <p class="sol-desc">Da originação à cobrança: proposta, documentos, análise, aprovação, contrato e parcelas em uma única plataforma configurável.</p>
+        <ul class="sol-bullets">
+          <li>Produtos e regras configuráveis</li>
+          <li>Análise e aprovação automatizadas</li>
+          <li>Visão completa da carteira</li>
+        </ul>
+        <a class="sol-link" href="#contato">Agendar demonstração <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+      </div>
+
+      <div class="sol-card">
+        <div class="sol-index">04 / Rastreabilidade</div>
+        <div class="sol-name">wTrust</div>
+        <div class="sol-sub">Rastreabilidade que constrói confiança</div>
+        <p class="sol-desc">Conecta cada produto físico a uma identidade digital única, imutável e verificável por qualquer consumidor pelo smartphone.</p>
+        <ul class="sol-bullets">
+          <li>Proteção contra falsificação</li>
+          <li>Rastreabilidade ponta a ponta</li>
+          <li>Conformidade regulatória</li>
+        </ul>
+        <a class="sol-link" href="#contato">Conhecer solução <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ O QUE FAZEMOS ============ -->
+<section class="section" id="fazemos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">O que fazemos</div>
+      <h2 class="h2">Software sob medida, <em>potencializado</em> por IA</h2>
+      <p class="lede">Desenvolvemos plataformas, aplicativos e integrações sob medida e aplicamos inteligência artificial onde ela gera resultado real para a sua operação.</p>
+    </div>
+
+    <div class="pillar-list reveal">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <div>
+          <div class="pillar-name">Software Sob Medida</div>
+          <p class="pillar-desc">Plataformas web, aplicativos e sistemas internos construídos do zero para o seu processo, com foco em escalabilidade, performance e experiência do usuário.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <div>
+          <div class="pillar-name">Inteligência Artificial Aplicada</div>
+          <p class="pillar-desc">Agentes, copilotos e automações com IA integrados aos seus dados e sistemas, resolvendo tarefas reais de atendimento, vendas e operação.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <div>
+          <div class="pillar-name">Integrações e APIs</div>
+          <p class="pillar-desc">Conectamos ERPs, CRMs e ferramentas legadas por APIs seguras, eliminando trabalho manual e garantindo dados consistentes entre sistemas.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">04</div>
+        <div>
+          <div class="pillar-name">Produto e Evolução Contínua</div>
+          <p class="pillar-desc">Discovery, prototipação e sprints de evolução com métricas claras. Da ideia ao lançamento e além, com um time dedicado ao seu produto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VANTAGENS ============ -->
+<section class="section" id="vantagens">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Por que a Wconnect</div>
+      <h2 class="h2">Vantagens de contratar a <em>Wconnect</em></h2>
+      <p class="lede">Trabalhar com a Wconnect é ir além da entrega técnica. Unimos estratégia, tecnologia e foco em resultado para garantir que cada projeto gere valor real com agilidade, segurança e inovação em todas as etapas.</p>
+    </div>
+
+    <div class="adv-grid reveal">
+      <div class="adv-card">
+        <svg class="adv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div class="adv-name">Redução de riscos</div>
+        <p class="adv-desc">Validamos hipóteses e funcionalidades antes do desenvolvimento. Isso evita retrabalho, economiza tempo e garante que você invista no que realmente importa.</p>
+      </div>
+      <div class="adv-card">
+        <svg class="adv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 2 3 14h7l-1 8 11-13h-8l1-7Z"/></svg>
+        <div class="adv-name">Mais eficiência</div>
+        <p class="adv-desc">Aplicamos inteligência artificial para automatizar tarefas repetitivas e operacionais, liberando sua equipe para focar no que realmente gera valor.</p>
+      </div>
+      <div class="adv-card">
+        <svg class="adv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1Z"/></svg>
+        <div class="adv-name">Stack atualizada</div>
+        <p class="adv-desc">Escolhemos a tecnologia ideal para cada projeto — não ficamos presos a uma stack fixa. Isso garante performance, escalabilidade e liberdade de evolução.</p>
+      </div>
+      <div class="adv-card">
+        <svg class="adv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 19V6a2 2 0 0 1 2-2h13v15"/><path d="M4 19h15v3H6a2 2 0 0 1-2-2v-1Z"/><path d="M9 8h7M9 11h7"/></svg>
+        <div class="adv-name">Atendimento completo</div>
+        <p class="adv-desc">Acompanhamos todas as etapas do seu projeto com times especializados. Do planejamento ao pós-lançamento, estamos presentes para garantir resultado e continuidade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMERSÃO ============ -->
+<section class="section" id="imersao">
+  <div class="wrap">
+    <div class="split">
+      <div class="split-media reveal">
+        <img src="{{GLASS1}}" alt="Rede de conexões inteligentes Wconnect">
+      </div>
+      <div class="split-text reveal">
+        <div class="eyebrow">Como trabalhamos</div>
+        <h2 class="h2">Fazemos uma <em>imersão</em> no seu negócio</h2>
+        <p class="lede">Antes de propor qualquer linha de código, mergulhamos no seu contexto e analisamos o problema, escutamos usuários, estudamos o mercado e traçamos o melhor caminho junto com você.</p>
+        <a href="#contato" class="btn btn-ghost" style="margin-top:34px;">Agendar uma conversa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLIENTES ============ -->
+<div class="clients-wrap reveal">
+  <div class="wrap" style="margin-bottom:26px;">
+    <div class="eyebrow" style="margin-bottom:6px;">Empresas que confiam na Wconnect</div>
+    <p style="color:var(--mist-dim);font-size:13.5px;font-weight:300;margin:0;">Parceiros que transformaram seus negócios com nossas soluções.</p>
+  </div>
+  <div class="marquee-track" id="marquee">
+    <span>Ceratti</span><span>Energisa</span><span>Votorantim</span><span>Kibon</span><span>LATAM Airlines</span><span>UNESCO</span><span>Avipam</span><span>Uber</span><span>Whirlpool</span><span>Syngenta</span>
+    <span>Ceratti</span><span>Energisa</span><span>Votorantim</span><span>Kibon</span><span>LATAM Airlines</span><span>UNESCO</span><span>Avipam</span><span>Uber</span><span>Whirlpool</span><span>Syngenta</span>
+  </div>
+</div>
+
+<!-- ============ SOFTWARE PERSONALIZADO ============ -->
+<section class="section" id="software">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Desenvolvimento</div>
+      <h2 class="h2">Software Sob Medida que Resolve <em>Problemas Reais</em></h2>
+      <p class="lede">Chega de adaptar seu negócio a ferramentas genéricas. Desenvolvemos soluções personalizadas que se encaixam perfeitamente nos seus processos e escalam com você.</p>
+      <div class="hero-cta-row" style="margin-top:32px;">
+        <a href="https://wa.me/551150286511" target="_blank" class="btn btn-primary">Falar com Especialista</a>
+        <a href="#software" class="btn btn-ghost">Ver como funciona</a>
+      </div>
+    </div>
+
+    <div class="stats-row reveal">
+      <div class="stat-box"><div class="stat-num">4–8</div><div class="stat-label">Semanas para um MVP funcional</div></div>
+      <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">Time sênior dedicado</div></div>
+      <div class="stat-box"><div class="stat-num">A+</div><div class="stat-label">Código de qualidade e testado</div></div>
+    </div>
+
+    <div class="sectors reveal">
+      <span class="tag">Fintech</span><span class="tag">E-commerce</span><span class="tag">Logística</span><span class="tag">Saúde</span><span class="tag">Educação</span><span class="tag">Marketplace</span><span class="tag">SaaS</span><span class="tag">Agronegócio</span><span class="tag">Varejo</span><span class="tag">Indústria</span>
+    </div>
+
+    <div style="margin-top:90px;" class="reveal">
+      <div class="eyebrow">Problemas que a Wconnect resolve</div>
+      <div class="problems-grid">
+        <div class="problem-item"><b>Processo manual</b>Tarefas repetitivas tomam tempo que poderia ser usado em estratégia.</div>
+        <div class="problem-item"><b>Alto custo operacional</b>Licenças caras de software que não entrega o valor esperado.</div>
+        <div class="problem-item"><b>Falta de integração</b>Sistemas que não conversam entre si, gerando retrabalho.</div>
+        <div class="problem-item"><b>Escalabilidade limitada</b>Software que não acompanha o crescimento do negócio.</div>
+        <div class="problem-item"><b>Dependência de fornecedor</b>Prisioneiro de uma solução que não atende mais às necessidades.</div>
+        <div class="problem-item"><b>Experiência ruim</b>Interface confusa que frustra usuários e reduz produtividade.</div>
+        <div class="problem-item"><b>Falta de visibilidade</b>Dados fragmentados que impedem decisões assertivas.</div>
+        <div class="problem-item"><b>Segurança frágil</b>Preocupação constante com vazamento de dados e compliance.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:90px;" class="reveal">
+      <div class="eyebrow">Processo de desenvolvimento</div>
+      <div class="process-strip">
+        <div class="process-step"><div class="process-mono">01</div><div class="process-name">Discovery &amp; Alinhamento</div><div class="process-desc">Imersão no negócio para entender processos, dores, objetivos e escopo do MVP.</div></div>
+        <div class="process-step"><div class="process-mono">02</div><div class="process-name">Prototipação &amp; Validação</div><div class="process-desc">Protótipos navegáveis para validar fluxos e UX antes da codificação.</div></div>
+        <div class="process-step"><div class="process-mono">03</div><div class="process-name">Arquitetura &amp; Tech Design</div><div class="process-desc">Definição da arquitetura, stack e integrações, documentadas com o negócio.</div></div>
+        <div class="process-step"><div class="process-mono">04</div><div class="process-name">Desenvolvimento Ágil</div><div class="process-desc">Sprints de duas semanas com entregas funcionais e dashboard de acompanhamento.</div></div>
+        <div class="process-step"><div class="process-mono">05</div><div class="process-name">Testes &amp; Qualidade</div><div class="process-desc">Testes automatizados, revisão de código e QA contínuo.</div></div>
+        <div class="process-step"><div class="process-mono">06</div><div class="process-name">Deploy &amp; Evolução</div><div class="process-desc">Lançamento em produção, monitoramento, documentação e evolução contínua.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:90px;" class="two-col-lists reveal">
+      <div>
+        <div class="eyebrow">Diferenciais tecnológicos</div>
+        <ul class="dot-list">
+          <li>IA em todo o ciclo — documentação automatizada, geração de código base e testes gerados para casos reais, com aceleração de até 60% no início do projeto.</li>
+          <li>Arquitetura em microserviços — sistemas distribuídos, Kubernetes, alta disponibilidade e failover.</li>
+          <li>Segurança e conformidade por padrão — criptografia em trânsito e repouso, OAuth2, JWT, LGPD e GDPR.</li>
+          <li>Nuvem otimizada — escalabilidade automática e possível redução de até 30% nos custos de nuvem.</li>
+          <li>Observabilidade total — ElasticSearch, CloudWatch, dashboards e alertas proativos.</li>
+          <li>Blockchain para rastreabilidade — registros imutáveis e cadeia de suprimentos auditável.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="eyebrow">Por que escolher software personalizado</div>
+        <ul class="dot-list">
+          <li>MVP funcional em 4 a 8 semanas.</li>
+          <li>Funcionalidades desenhadas para os problemas específicos do cliente.</li>
+          <li>Código limpo, testes automatizados e arquitetura sólida.</li>
+          <li>O cliente é dono do código-fonte.</li>
+          <li>Suporte dedicado e parceria de longo prazo.</li>
+          <li>Segurança, LGPD, ISO 27001 e boas práticas desde o primeiro dia.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:90px;" class="reveal">
+      <div class="eyebrow">Desafios e resultados esperados</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Desafio</th><th>Abordagem</th><th>Resultado esperado</th></tr>
+          <tr><td>Suporte excessivo</td><td>Interface intuitiva, automações e guias contextuais</td><td>Redução significativa dos tickets</td></tr>
+          <tr><td>Custos de nuvem imprevisíveis</td><td>Análise de consumo, escalabilidade dinâmica e provisionamento automatizado</td><td>Redução de até 30% nos custos de nuvem</td></tr>
+          <tr><td>Tecnologia desatualizada</td><td>Kubernetes, IA, microserviços e reengenharia</td><td>Maior eficiência e resposta ao mercado</td></tr>
+          <tr><td>Deploy e testes manuais</td><td>Pipelines CI/CD, testes automatizados e monitoramento</td><td>Menos tempo de deploy e mais confiabilidade</td></tr>
+          <tr><td>Back end ineficiente</td><td>Escalabilidade automática e testes de carga</td><td>Melhoria de até 50% no desempenho</td></tr>
+          <tr><td>Interface lenta e difícil</td><td>Next.js, React, UX validada e feedback visual</td><td>Maior adoção e engajamento</td></tr>
+          <tr><td>Falta de auditoria</td><td>Trilhas de auditoria, dashboards e alertas</td><td>Mais transparência e governança</td></tr>
+          <tr><td>Decisões sem dados</td><td>Modelos de IA e geração de insights</td><td>Decisões mais rápidas e redução de custos</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top:90px;" class="reveal">
+      <div class="eyebrow">Stack citada</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Área</th><th>Tecnologias e conceitos</th></tr>
+          <tr><td>Frontend</td><td>React, Next.js, TypeScript, Tailwind, React Native</td></tr>
+          <tr><td>Backend</td><td>Node.js, Python, Go, PostgreSQL, MongoDB</td></tr>
+          <tr><td>Cloud e DevOps</td><td>AWS, GCP, Docker, Kubernetes, Terraform</td></tr>
+          <tr><td>IA e ML</td><td>OpenAI, Anthropic, LangChain, Vector DBs, RAG</td></tr>
+          <tr><td>Integrações</td><td>REST APIs, GraphQL, Webhooks, RPA, ETL</td></tr>
+          <tr><td>Segurança</td><td>OAuth 2.0, RBAC, Encryption, LGPD, SOC 2</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section class="section" id="sobre">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="eyebrow">Sobre a Wconnect</div>
+        <h2 class="h2">Escalamos negócios com <em>tecnologia</em> de ponta</h2>
+        <p class="lede">A Wconnect é uma empresa especializada em desenvolvimento de software sob medida, com forte foco em performance, escalabilidade e inovação. Trabalhamos como parceiros estratégicos de negócio, entendendo a fundo as dores e os objetivos de cada cliente para criar soluções digitais sólidas, seguras e eficientes.</p>
+        <p class="lede">Já apoiamos startups, empresas em expansão e grandes corporações a transformar processos, reduzir custos operacionais e gerar crescimento sustentável através de tecnologia. Nosso diferencial está em unir visão de negócio com tecnologia de ponta, metodologias ágeis aplicadas com inteligência e equipes multidisciplinares de alta especialização técnica.</p>
+
+        <div class="indicators">
+          <div class="indicator"><div class="stat-num">100+</div><div class="stat-label">Projetos entregues</div></div>
+          <div class="indicator"><div class="stat-num">50+</div><div class="stat-label">Clientes ativos</div></div>
+          <div class="indicator"><div class="stat-num">5+</div><div class="stat-label">Anos de mercado</div></div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="pv-card">
+          <div class="pv-label">Propósito</div>
+          <div class="pv-text">"Capacitar empresas a explorar todo o potencial da tecnologia através de soluções personalizadas que resolvem problemas reais."</div>
+        </div>
+        <div class="pv-card">
+          <div class="pv-label">Visão</div>
+          <div class="pv-text">"Ser referência global em transformação digital, conectando negócios ao futuro através da inovação tecnológica."</div>
+        </div>
+        <div class="eyebrow" style="margin-top:40px;">Princípios operacionais</div>
+        <ul class="princ-list">
+          <li>Compromisso com entregas de alta qualidade, dentro dos prazos definidos.</li>
+          <li>Entendimento profundo do problema de negócio antes da primeira linha de código.</li>
+          <li>Escolha técnica sempre subordinada ao resultado que a empresa precisa alcançar.</li>
+          <li>Ciclos curtos, validação constante com stakeholders e ajustes baseados em dados.</li>
+          <li>Especialistas em produto, arquitetura, dados, segurança e UX no mesmo squad.</li>
+          <li>Relações duradouras e acompanhamento da evolução do produto após o lançamento.</li>
+          <li>Processo desenhado para reduzir riscos, ganhar agilidade e garantir excelência técnica.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:110px;" class="split reveal">
+      <div class="split-text">
+        <div class="eyebrow">IA aplicada ao ciclo do produto</div>
+        <h2 class="h2" style="font-size:clamp(26px,3vw,36px);">Da reunião ao <em>deploy</em>, com IA em cada etapa</h2>
+        <ul class="dot-list" style="margin-top:26px;">
+          <li>Reuniões inteligentes — gravação e análise com IA para capturar detalhes técnicos e estratégicos.</li>
+          <li>Documentação automatizada — conversas viram especificações, fluxos e arquitetura inicial.</li>
+          <li>Telas e fluxos antecipados — registro em Jira, Figma, Miro e Bitbucket com o cliente.</li>
+          <li>Codificação assistida — assistentes inteligentes para código limpo, seguro e eficiente.</li>
+          <li>Testes automatizados com IA — geração de testes para casos reais e menos falhas em produção.</li>
+          <li>Entrega ágil e iterativa — lançamentos em ciclos curtos, com validação constante.</li>
+        </ul>
+      </div>
+      <div class="split-media">
+        <img src="{{GLASS2}}" alt="Wconnect conectando canais de atendimento com inteligência artificial">
+      </div>
+    </div>
+
+    <div style="margin-top:90px;display:flex;gap:60px;flex-wrap:wrap;" class="reveal">
+      <div style="flex:1;min-width:220px;">
+        <div class="eyebrow">Pilares da empresa</div>
+        <ul class="dot-list">
+          <li>Qualidade como alicerce do código e do atendimento.</li>
+          <li>Ética e integridade como compromissos inegociáveis.</li>
+          <li>Colaboração como elemento essencial para resultados excepcionais.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BLOG TEASER ============ -->
+<section class="section" id="blog">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Blog Wconnect</div>
+      <h2 class="h2">Insights sobre <em>IA</em> e automação</h2>
+      <p class="lede">Veja temas, tendências e notícias comentados pela Wconnect sobre inteligência artificial aplicada, automação, atendimento, crédito, blockchain e desenvolvimento de software sob medida.</p>
+    </div>
+    <div class="blog-grid reveal">
+      <div class="blog-card">
+        <div class="blog-topic">IA aplicada</div>
+        <div class="blog-title">Como agentes de IA estão mudando o atendimento omnichannel</div>
+        <div class="blog-note">Novos conteúdos em breve.</div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-topic">Crédito &amp; Blockchain</div>
+        <div class="blog-title">Rastreabilidade e esteiras digitais: o novo padrão de confiança</div>
+        <div class="blog-note">Novos conteúdos em breve.</div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-topic">Software sob medida</div>
+        <div class="blog-title">Por que produtos sob medida escalam melhor que ferramentas genéricas</div>
+        <div class="blog-note">Novos conteúdos em breve.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHAMADA FINAL ============ -->
+<section class="final-cta">
+  <div class="final-glow"></div>
+  <div class="wrap reveal">
+    <div class="eyebrow" style="justify-content:center;">Vamos começar</div>
+    <h2 class="h2">Pronto para criar algo que <em>gere valor</em> de verdade?</h2>
+    <p class="lede">Vamos conversar sobre como podemos transformar sua visão em realidade.</p>
+    <div class="hero-cta-row">
+      <a href="https://wa.me/551150286511" target="_blank" class="btn btn-primary">Começar Agora</a>
+      <a href="#material" class="btn btn-ghost">Baixar material institucional</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTATO ============ -->
+<section class="section" id="contato">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Contato</div>
+      <h2 class="h2">Vamos <em>Conversar?</em></h2>
+      <p class="lede">Entre em contato conosco e descubra como podemos transformar seu negócio com tecnologia.</p>
+    </div>
+
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <div class="ci-row"><span class="ci-label">E-mail</span><span class="ci-value"><a href="mailto:contato@wconnect.com.br">contato@wconnect.com.br</a></span></div>
+        <div class="ci-row"><span class="ci-label">Telefone</span><span class="ci-value"><a href="tel:+551199965-8150">+55 (11) 99965-8150</a></span></div>
+        <div class="ci-row"><span class="ci-label">WhatsApp comercial</span><span class="ci-value"><a href="https://wa.me/551150286511" target="_blank">+55 (11) 5028-6511</a></span></div>
+        <div class="ci-row"><span class="ci-label">Endereço</span><span class="ci-value">Av. Dr. Chucri Zaidan, 1649<br>Vila São Francisco (Zona Sul)</span></div>
+        <div class="ci-row"><span class="ci-label">Cidade</span><span class="ci-value">São Paulo — SP, 04711-130</span></div>
+        <div class="ci-row"><span class="ci-label">Instagram</span><span class="ci-value"><a href="https://instagram.com/wconnect.ai" target="_blank">@wconnect.ai</a></span></div>
+        <div class="ci-row"><span class="ci-label">LinkedIn</span><span class="ci-value"><a href="https://linkedin.com/company/wconnect" target="_blank">/company/wconnect</a></span></div>
+      </div>
+
+      <form class="form" id="contactForm">
+        <div class="form-row">
+          <div class="field"><label for="fname">Nome</label><input id="fname" type="text" required placeholder="Seu nome completo"></div>
+          <div class="field"><label for="femail">E-mail</label><input id="femail" type="email" required placeholder="voce@empresa.com"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="fphone">Telefone</label><input id="fphone" type="tel" placeholder="+55 (11) 00000-0000"></div>
+          <div class="field"><label for="fcompany">Empresa</label><input id="fcompany" type="text" placeholder="Nome da empresa"></div>
+        </div>
+        <div class="field"><label for="fmsg">Mensagem</label><textarea id="fmsg" required placeholder="Conte um pouco sobre o seu projeto..."></textarea></div>
+        <div class="form-foot">
+          <small>Ao enviar, abriremos seu app de e-mail com a mensagem pronta para contato@wconnect.com.br.</small>
+          <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="material">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand-word">W<span style="color:var(--green-bright);">Connect</span></div>
+        <p class="foot-sig">Transformando negócios com inteligência artificial e tecnologia de ponta.</p>
+        <a href="https://wa.me/551150286511" target="_blank" class="btn btn-ghost" style="margin-top:24px;padding:11px 20px;font-size:13px;">Baixar material institucional</a>
+      </div>
+      <div class="foot-col">
+        <h4>Soluções</h4>
+        <ul>
+          <li><a href="https://wconnect.ai" target="_blank">Wconnect IA</a></li>
+          <li><a href="#solucoes">S&amp;OP IA</a></li>
+          <li><a href="#solucoes">Esteira de Crédito</a></li>
+          <li><a href="#solucoes">Autenticação de Produtos</a></li>
+          <li><a href="#software">Software Personalizado</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contato">Contato</a></li>
+          <li><a href="#legal-privacidade">Política de Privacidade</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="mailto:contato@wconnect.com.br">contato@wconnect.com.br</a></li>
+          <li><a href="tel:+5511999658150">+55 (11) 99965-8150</a></li>
+          <li><a href="https://wa.me/551150286511" target="_blank">+55 (11) 5028-6511</a></li>
+          <li style="color:var(--mist);font-size:14px;">Av. Dr. Chucri Zaidan, 1649 — São Paulo, SP</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="legal-accordion">
+      <div class="eyebrow">Informações legais</div>
+      <details id="legal-privacidade">
+        <summary>Política de Privacidade</summary>
+        <div class="legal-body">
+          Wconnect Tecnologia e Serviços Ltda. declara conformidade com a LGPD (Lei nº 13.709/2018). Coletamos dados como nome, e-mail, telefone, empresa, IP, cookies, páginas acessadas, tempo de permanência, histórico de conversas com chatbots e agentes de IA, e informações de dispositivo, navegador e sistema operacional. Esses dados são usados para prestação dos serviços, suporte, personalização, comunicações, melhoria dos produtos, cumprimento de obrigações legais e treinamento de modelos de IA com dados anonimizados. As bases legais incluem consentimento, execução de contrato, legítimo interesse e cumprimento de obrigação legal. Compartilhamentos possíveis incluem fornecedores de infraestrutura, parceiros de IA, autoridades públicas e parceiros comerciais mediante consentimento. Dúvidas e solicitações podem ser enviadas para contato@wconnect.com.br. Última atualização: dezembro de 2025.
+        </div>
+      </details>
+      <details id="legal-termos">
+        <summary>Termos de Serviço</summary>
+        <div class="legal-body">
+          Os termos tratam de aceitação, definição de usuário e plataforma, elegibilidade, credenciais, natureza dos serviços de IA, disponibilidade, contratação e pagamentos, conteúdo inserido pelo usuário, privacidade, exclusão de dados, propriedade intelectual, integrações com terceiros, limitações de responsabilidade, suspensão e alterações, sob a lei brasileira. Respostas de IA podem ter limitações e não substituem análise humana especializada em situações críticas, jurídicas, financeiras, médicas, técnicas ou regulatórias. Foro: comarca de São Paulo/SP, salvo hipótese obrigatória prevista em lei. Última atualização: março de 2026.
+        </div>
+      </details>
+      <details id="legal-exclusao">
+        <summary>Exclusão de Dados</summary>
+        <div class="legal-body">
+          O titular ou representante autorizado pode solicitar exclusão de conta, exclusão de dados específicos, anonimização, bloqueio, eliminação de dados desnecessários e revogação de consentimento quando aplicável. A solicitação é feita pelo e-mail contato@wconnect.com.br; a Wconnect pode solicitar validação de identidade, analisar a base legal e informar o que será excluído, anonimizado, bloqueado ou mantido. Alguns registros podem ser conservados por obrigação legal, prevenção de fraude, segurança, defesa em processos, logs técnicos, trilhas de auditoria ou retenção fiscal/contábil. Última atualização: agosto de 2026.
+        </div>
+      </details>
+    </div>
+
+    <div class="foot-bottom">
+      <p>© 2017–2026 Wconnect. Todos os direitos reservados.</p>
+      <div class="social-row">
+        <a href="https://instagram.com/wconnect.ai" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="https://linkedin.com/company/wconnect" target="_blank" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 13v4"/></svg></a>
+        <a href="https://wa.me/551150286511" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l1.3-3.9A8 8 0 1 1 9 18.6L4 20Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ VOICE FAB ============ -->
+<div class="voice-fab" id="voiceFab">
+  <div class="voice-orb"></div>
+  <div class="voice-text"><b>Raquel IA</b>Fale com nosso agente</div>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // nav scroll state
+  var nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 40){ nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
+  });
+
+  // mobile menu
+  var burger = document.getElementById('burger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  var closeMobile = document.getElementById('closeMobile');
+  burger.addEventListener('click', function(){ mobileMenu.style.display = 'flex'; });
+  closeMobile.addEventListener('click', function(){ mobileMenu.style.display = 'none'; });
+  document.querySelectorAll('.mnav').forEach(function(a){
+    a.addEventListener('click', function(){ mobileMenu.style.display = 'none'; });
+  });
+
+  // contact form -> mailto
+  var form = document.getElementById('contactForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('fname').value;
+    var email = document.getElementById('femail').value;
+    var phone = document.getElementById('fphone').value;
+    var company = document.getElementById('fcompany').value;
+    var msg = document.getElementById('fmsg').value;
+    var body = 'Nome: ' + name + '%0ATelefone: ' + phone + '%0AEmpresa: ' + company + '%0A%0AMensagem:%0A' + encodeURIComponent(msg);
+    window.location.href = 'mailto:contato@wconnect.com.br?subject=' + encodeURIComponent('Contato pelo site — ' + name) + '&body=' + body + '&cc=' + encodeURIComponent(email);
+  });
+
+  if(prefersReduce){ document.body.classList.add('reduce-motion'); return; }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // section reveals
+  gsap.utils.toArray('.reveal').forEach(function(el){
+    gsap.fromTo(el, {opacity:0, y:36}, {
+      opacity:1, y:0, duration:1, ease:'power3.out',
+      scrollTrigger:{ trigger: el, start:'top 88%', once:true }
+    });
+  });
+
+  // stagger cards inside grids
+  ['.sol-grid','.adv-grid','.blog-grid'].forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(grid){
+      var items = grid.children;
+      gsap.fromTo(items, {opacity:0, y:26}, {
+        opacity:1, y:0, duration:.8, ease:'power3.out', stagger:0.08,
+        scrollTrigger:{ trigger: grid, start:'top 85%', once:true }
+      });
+    });
+  });
+
+  // hero orb entrance + idle float
+  gsap.fromTo('#orbLines path', {drawSVG:'0%'}, {duration:0}); // no-op guard if plugin missing
+  gsap.from('.orb-core', {scale:0, duration:1.1, ease:'back.out(1.6)', delay:.2});
+  gsap.from('#orbNodes .node', {scale:0, opacity:0, duration:.7, ease:'back.out(2)', stagger:0.08, delay:.5});
+  gsap.from('#orbLines path', {opacity:0, duration:1, stagger:0.05, delay:.6});
+  gsap.to('.orb-stage', {y:-16, duration:3.4, ease:'sine.inOut', yoyo:true, repeat:-1});
+  gsap.to('#orbNodes', {rotation:360, transformOrigin:'230px 230px', duration:70, repeat:-1, ease:'none'});
+  gsap.to('#orbLines', {rotation:360, transformOrigin:'230px 230px', duration:70, repeat:-1, ease:'none'});
+  gsap.to('#orbNodes .node', {rotation:-360, transformOrigin:'230px 230px', duration:70, repeat:-1, ease:'none'});
+
+  // hero parallax on glow
+  gsap.to('.glow-1', {y:80, scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:1}});
+  gsap.to('.glow-2', {y:-60, scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:1}});
+  gsap.to('.hero-grid', {y:60, scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:1}});
+
+  // split media subtle parallax
+  gsap.utils.toArray('.split-media').forEach(function(m){
+    gsap.fromTo(m, {y:40}, {y:-40, ease:'none', scrollTrigger:{trigger:m, start:'top bottom', end:'bottom top', scrub:1}});
+  });
+
+  // pillar rows slide-in numbers
+  gsap.utils.toArray('.pillar').forEach(function(p, i){
+    gsap.fromTo(p, {opacity:0, x:-24}, {opacity:1, x:0, duration:.8, ease:'power3.out',
+      scrollTrigger:{trigger:p, start:'top 90%', once:true}});
+  });
+
+  // process strip
+  gsap.utils.toArray('.process-step').forEach(function(p){
+    gsap.fromTo(p, {opacity:0, y:20}, {opacity:1, y:0, duration:.7, ease:'power3.out',
+      scrollTrigger:{trigger:p, start:'top 92%', once:true}});
+  });
+
+  // number count-up for stat-num
+  document.querySelectorAll('.stat-num, .indicator .stat-num').forEach(function(el){
+    var text = el.textContent.trim();
+    var match = text.match(/[\d.,]+/);
+    if(!match) return;
+    var target = parseFloat(match[0].replace(',', '.'));
+    var suffix = text.replace(match[0], '');
+    var obj = {val:0};
+    ScrollTrigger.create({
+      trigger: el, start:'top 90%', once:true,
+      onEnter: function(){
+        gsap.to(obj, {val:target, duration:1.6, ease:'power2.out',
+          onUpdate:function(){
+            var v = target % 1 === 0 ? Math.round(obj.val) : obj.val.toFixed(1);
+            el.textContent = v + suffix;
+          }
+        });
+      }
+    });
+  });
+
+  // voice fab gentle entrance
+  gsap.from('#voiceFab', {opacity:0, y:20, duration:1, delay:1.2, ease:'power2.out'});
+
+})();
+</script>
+</body>
+</html>
